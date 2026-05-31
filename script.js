@@ -1,32 +1,33 @@
-// PRODUCT DATA
-const products = [
-  { id: 1, name: "RTX 4070", price: 599 },
-  { id: 2, name: "Gaming Mouse", price: 49 },
-  { id: 3, name: "Keyboard", price: 129 },
-];
-
-// CART
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// SAVE CART
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
+const products = [
+  { id: 1, name: "RTX 4090", price: 1599, category: "gpu" },
+  { id: 2, name: "RTX 4080", price: 1199, category: "gpu" },
+  { id: 3, name: "RTX 4070", price: 599, category: "gpu" },
+  { id: 4, name: "RX 7900 XTX", price: 999, category: "gpu" },
 
-// UPDATE CART COUNT
-function updateCartCount() {
-  const count = document.getElementById("cart-count");
-  if (count) count.innerText = cart.length;
-}
+  { id: 5, name: "Ryzen 9 7950X", price: 699, category: "cpu" },
+  { id: 6, name: "Intel i9 13900K", price: 589, category: "cpu" },
 
-// DISPLAY PRODUCTS
-function displayProducts(containerId) {
-  const container = document.getElementById(containerId);
+  { id: 7, name: "32GB RAM", price: 149, category: "ram" },
+  { id: 8, name: "16GB RAM", price: 89, category: "ram" },
+
+  { id: 9, name: "1TB SSD", price: 99, category: "storage" },
+  { id: 10, name: "2TB SSD", price: 179, category: "storage" },
+
+  { id: 11, name: "Liquid Cooler", price: 129, category: "cooling" },
+
+  { id: 12, name: "Gaming Mouse", price: 79, category: "accessory" },
+  { id: 13, name: "Keyboard", price: 129, category: "accessory" }
+];
+
+function displayProducts(list) {
+  const container = document.getElementById("products");
   if (!container) return;
 
-  container.innerHTML = products.map(p => `
-    <div class="card">
-      <img src="">
+  container.innerHTML = list.map(p => `
+    <div class="product">
+      <img src="images/${p.id}.jpg">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
       <button onclick="addToCart(${p.id})">Add to Cart</button>
@@ -34,83 +35,61 @@ function displayProducts(containerId) {
   `).join("");
 }
 
-// ADD TO CART
+displayProducts(products);
+
+/* ADD TO CART */
 function addToCart(id) {
   const product = products.find(p => p.id === id);
   cart.push(product);
-  saveCart();
-  updateCartCount();
-  alert("Added to cart!");
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert(product.name + " added to cart!");
+
+  updateCart();
 }
 
-// DISPLAY CART
-function displayCart() {
-  const container = document.getElementById("cart-items");
-  const totalEl = document.getElementById("total-price");
+function updateCart() {
+  const count = document.getElementById("cart-count");
+  if (count) count.innerText = cart.length;
+}
 
-  if (!container) return;
+updateCart();
+
+/* CART PAGE */
+function loadCart() {
+  const list = document.getElementById("cart-items");
+  const totalEl = document.getElementById("total");
+
+  if (!list) return;
 
   let total = 0;
 
-  container.innerHTML = cart.map((item, i) => {
+  list.innerHTML = cart.map((item, i) => {
     total += item.price;
     return `
-      <div class="cart-item">
-        <p>${item.name}</p>
-        <p>$${item.price}</p>
+      <li>${item.name} - $${item.price}
         <button onclick="removeItem(${i})">X</button>
-      </div>
+      </li>
     `;
   }).join("");
 
-  if (totalEl) totalEl.innerText = total;
+  totalEl.innerText = total;
 }
 
-// REMOVE ITEM
-function removeItem(index) {
-  cart.splice(index, 1);
-  saveCart();
-  displayCart();
-  updateCartCount();
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
+  updateCart();
 }
 
-// PRODUCT PAGE LOAD
-function loadProduct() {
-  const container = document.getElementById("product-detail");
-  if (!container) return;
+loadCart();
 
-  const product = products[0];
+/* FILTER */
+function filterCategory(cat) {
+  if (cat === "all") return displayProducts(products);
 
-  container.innerHTML = `
-    <img src="">
-    <div class="product-info">
-      <h2>${product.name}</h2>
-      <p class="price">$${product.price}</p>
-      <button onclick="addToCart(${product.id})">Add to Cart</button>
-    </div>
-  `;
+  const filtered = products.filter(p => p.category === cat);
+  displayProducts(filtered);
 }
-
-// CHECKOUT
-function loadCheckout() {
-  const container = document.getElementById("checkout-items");
-  if (!container) return;
-
-  container.innerHTML = cart.map(item => `
-    <p>${item.name} - $${item.price}</p>
-  `).join("");
-}
-
-function placeOrder() {
-  alert("Order placed!");
-  cart = [];
-  saveCart();
-}
-
-// RUN ON PAGE LOAD
-updateCartCount();
-displayProducts("featured-products");
-displayProducts("shop-products");
-displayCart();
-loadProduct();
-loadCheckout();
