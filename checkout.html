@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GearSwap</title>
-    <link rel="stylesheet" href="styles.css">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <header>
+
+<header class="navbar">
   <h2>GEARSWAP</h2>
   <nav>
     <a href="index.html">Home</a>
@@ -16,20 +16,16 @@
     <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
   </nav>
 </header>
-<div class="checkout">
-  <div class="form">
-    <h2>Shipping Info</h2>
-    <input placeholder="Full Name">
-    <input placeholder="Address">
-    <input placeholder="City">
-    <button onclick="placeOrder()">Place Order</button>
-  </div>
 
-  <div class="summary">
-    <h3>Order Summary</h3>
-    <div id="checkout-items"></div>
-  </div>
+<div class="checkout-container">
+  <h2>Checkout</h2>
+
+  <input type="text" placeholder="Full Name">
+  <input type="text" placeholder="Address">
+  <input type="text" placeholder="Card Number">
+
+  <button>Place Order</button>
 </div>
+
 </body>
-<script src="script.js"></script>
 </html>
