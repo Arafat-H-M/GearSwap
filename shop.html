@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GearSwap</title>
-    <link rel="stylesheet" href="styles.css">
+  <title>Shop</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <header>
+
+<header class="navbar">
   <h2>GEARSWAP</h2>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="shop.html">Shop</a>
@@ -17,20 +18,24 @@
   </nav>
 </header>
 
+<div class="shop-layout">
 
-<div class="shop-container">
   <div class="sidebar">
-    <ul>
-      <li>Graphics Cards</li>
-      <li>Processors</li>
-      <li>RAM</li>
-    </ul>
+    <h3>Categories</h3>
+
+    <p onclick="filterCategory('all')">All</p>
+    <p onclick="filterCategory('gpu')">GPU</p>
+    <p onclick="filterCategory('cpu')">CPU</p>
+    <p onclick="filterCategory('ram')">RAM</p>
+    <p onclick="filterCategory('storage')">Storage</p>
+    <p onclick="filterCategory('cooling')">Cooling</p>
+    <p onclick="filterCategory('accessory')">Accessories</p>
   </div>
 
-  <div class="products" id="shop-products"></div>
+  <div class="products" id="products"></div>
+
 </div>
 
-
-</body>
 <script src="script.js"></script>
+</body>
 </html>
